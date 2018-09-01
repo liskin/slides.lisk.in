@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Courgette&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Patrick+Hand&subset=latin-ext');
+
+@font-face {
+	font-family: emoji;
+	src: local('Apple Color Emoji'), local('Segoe UI Emoji'), local('EmojiOne Color'), local('Noto Color Emoji');
+}
+
+.reveal {
+	font-family: "Patrick Hand", sans-serif, emoji;
+	text-shadow:
+		rgba(255, 255, 255, 0.5) -0.03em -0.03em 0.5em,
+		rgba(255, 255, 255, 0.5)  0.03em -0.03em 0.5em,
+		rgba(255, 255, 255, 0.5) -0.03em  0.03em 0.5em,
+		rgba(255, 255, 255, 0.5)  0.03em  0.03em 0.5em;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+	font-family: 'Courgette', sans-serif, emoji;
+	letter-spacing: normal;
+	text-transform: none;
+	text-shadow:
+		rgba(255, 255, 255, 0.6) -0.03em -0.03em 0.3em,
+		rgba(255, 255, 255, 0.6)  0.03em -0.03em 0.3em,
+		rgba(255, 255, 255, 0.6) -0.03em  0.03em 0.3em,
+		rgba(255, 255, 255, 0.6)  0.03em  0.03em 0.3em;
+}
+
+.reveal h1 { font-size: 2.5em; }
+.reveal h2 { font-size: 1.7em; }
+.reveal h3 { font-size: 1.3em; }
+.reveal h4 { font-size: 1em; }
+
+.reveal pre {
+	background-color: rgba(135, 206, 235, 0.2);
+}

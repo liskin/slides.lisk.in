@@ -1,0 +1,11 @@
+---
+transition: fade
+transitionSpeed: fast
+parallaxBackgroundImage: 'img/air-atmosphere-blue-675977.jpg'
+parallaxBackgroundSize: '5392px 1588px'
+theme: sky
+css:
+    - css/custom-sky.css
+width: 800
+height: 450
+---
