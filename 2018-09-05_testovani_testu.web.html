@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>Zonky QA Meetup – Testování testů</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/css/reveal.css">
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/css/theme/sky.css" id="theme">
+  <link rel="stylesheet" href="css/custom-sky.css"/>
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/css/print/pdf.css' : 'https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Testování testů</h1>
+  <p class="author">Tomáš Janoušek<br />
+(tools &amp; infra @ <a href="https://www.gooddata.com/company/careers-list">GoodData</a>)</p>
+  <p class="date">5. 9. 2018 — <a href="https://www.facebook.com/events/951789721691848/">Zonky QA Meetup</a></p>
+</section>
+
+<section id="proč" class="slide level2">
+<h2>Proč?</h2>
+<ul>
+<li>kód testujeme</li>
+<li>testy jsou kód</li>
+<li>∴ testy testujeme</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>x</li>
+<li>y</li>
+</ul>
+</aside>
+</section>
+<section id="a-co-infrastruktura" class="slide level2">
+<h2>A co infrastruktura?</h2>
+<ul>
+<li>testovací infrastruktura je taky kód</li>
+<li>kód testujeme</li>
+<li>∴ infrastrukturu testujeme</li>
+</ul>
+<!--
+## lalala
+
+- [ahoj](https://nomi.cz/)
+
+:::::: columns
+::: {.column width="60%"}
+```c
+if (a > 5) {
+    a = 5
+}
+```
+:::
+::: {.column width="40%"}
+a
+:::
+::::::
+-->
+</section>
+    </div>
+  </div>
+
+  <script src="https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/lib/js/head.min.js"></script>
+  <script src="https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'fast', // default/fast/slow
+        // Parallax background image
+        parallaxBackgroundImage: 'img/air-atmosphere-blue-675977.jpg', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+        // Parallax background size
+        parallaxBackgroundSize: '5392px 1588px', // CSS syntax, e.g. "2100px 900px"
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 800,
+        height: 450,
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/plugin/zoom-js/zoom.js', async: true },
+          { src: 'https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>
