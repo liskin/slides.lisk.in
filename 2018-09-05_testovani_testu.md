@@ -91,10 +91,52 @@ def test_unsafe_chars(self, jenkins_mock):
 ```
 :::
 
-## Myslete dopředu
+## Myslete dlouhodobě
 
 - kód se mění
 - testy zastarávají
+
+## Code coverage
+
+:::::: columns
+::: {.column width=30%}
+měříme, kolik
+:::
+::: {.column width=30%}
+- souborů
+- funkcí
+- řádků
+- větví
+- podmínek
+:::
+::: {.column width=40%}
+máme pokryto testy
+:::
+::::::
+
+---
+
+```python
+def divisible_by_ten(n):
+    if (n % 10 == 0):
+        return True
+    else:
+        return false
+
+def test_divisble_by_ten():
+    assert divisible_by_ten(0)
+    assert divisible_by_ten(10)
+    assert divisible_by_ten(20)
+    assert divisible_by_ten(100)
+```
+
+---
+
+![](img/2018-09-05_testovani_testu/coverage.png){.stretch}
+
+---
+
+## Mutation testing
 
 ---
 
