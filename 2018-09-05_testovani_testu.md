@@ -2,8 +2,8 @@
 title-prefix: Zonky QA Meetup
 title: Testování testů
 author: |
-    Tomáš Janoušek \
-    (tools & infra @ [GoodData](https://www.gooddata.com/company/careers-list))
+    | Tomáš Janoušek
+    | (tools & infra @ [GoodData](https://www.gooddata.com/company/careers-list))
 date: 5. 9. 2018 --- [Zonky QA Meetup](https://www.facebook.com/events/951789721691848/)
 ---
 
@@ -30,8 +30,8 @@ date: 5. 9. 2018 --- [Zonky QA Meetup](https://www.facebook.com/events/951789721
 > deliberately and make sure the test complains. This ensures that the test
 > will catch the bug if it happens for real.
 
-The Pragmatic Programmer \
-[(Andrew Hunt and David Thomas, 2000)]{.x-smaller}
+| The Pragmatic Programmer
+| [(Andrew Hunt and David Thomas, 2000)]{.x-smaller}
 :::
 
 ---
@@ -104,6 +104,6 @@ def test_unsafe_chars(self, jenkins_mock):
 > source tree, introduce bugs on purpose, and verify that the tests will catch
 > them.
 
-The Pragmatic Programmer \
-[(Andrew Hunt and David Thomas, 2000)]{.x-smaller}
+| The Pragmatic Programmer
+| [(Andrew Hunt and David Thomas, 2000)]{.x-smaller}
 :::
