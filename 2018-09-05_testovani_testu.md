@@ -52,8 +52,8 @@ date: 5. 9. 2018 --- [Zonky QA Meetup](https://www.facebook.com/events/951789721
 ---
 
 ::: smaller
-```python
-@patch.object(jenkins.Jenkins, 'jenkins_open')
+<pre class="python"><code data-noescape
+>@patch.object(jenkins.Jenkins, 'jenkins_open')
 def test_unsafe_chars(self, jenkins_mock):
   response = build_jobs_list_responses(
     self.jobs_in_unsafe_name_folders, 'http://example.com/')
@@ -64,12 +64,12 @@ def test_unsafe_chars(self, jenkins_mock):
   expected_fullnames = [
     u"my_job1", u"my_job2",
     u"my_folder1/my_job3", u"my_folder1/my_job4",
-    u"my_folder1/my spaced folder/my job 5"
+<span class="fragment highlight-mark">    u"my_folder1/my spaced folder/my job 5"</span>
   ]
   self.assertEqual(len(expected_fullnames), len(jobs_info))
-  got_fullnames = [job[u"fullname"] for job in jobs_info]
-  self.assertEqual(expected_fullnames, got_fullnames)
-```
+<span class="fragment highlight-mark">  got_fullnames = [job[u"fullname"] for job in jobs_info]
+  self.assertEqual(expected_fullnames, got_fullnames)</span>
+</code></pre>
 :::
 
 ---

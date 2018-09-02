@@ -40,6 +40,10 @@
 	background-color: rgba(255, 255, 255, 0.8);
 }
 
+.reveal code {
+	white-space: unset;
+}
+
 .reveal blockquote {
 	background-color: rgba(255, 255, 255, 0.4);
 	font-style: normal;
@@ -65,6 +69,10 @@
 	font-size: 60%;
 }
 
-div.sourceCode {
-	margin: 0;
+.reveal .slides section .fragment.highlight-mark {
+	opacity: 1;
+	visibility: inherit;
+}
+.reveal .slides section .fragment.highlight-mark.visible {
+	background-color: rgba(255, 255, 0, 0.5);
 }

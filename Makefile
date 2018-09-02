@@ -1,17 +1,24 @@
 PANDOC ?= pandoc
 PANDOCFLAGS ?=
 
-ifdef REVEALJS_RAWGIT
-PANDOCFLAGS += --variable=revealjs-url:https://cdn.rawgit.com/hakimel/reveal.js/3.7.0
-endif
-
 all: 2018-09-05_testovani_testu.html
 
 REVEALJS_WEB = revealjs-web.yaml
 REVEALJS_THEME = revealjs-theme-sky.yaml
+REVEALJS_TEMPLATE = revealjs-template.html
 
-%.html: %.md $(REVEALJS_THEME)
-	$(PANDOC) --from=markdown --to=revealjs --output=$@ --standalone $(PANDOCFLAGS) $(REVEALJS_THEME) $<
+DEPS = $(REVEALJS_WEB) $(REVEALJS_THEME) $(REVEALJS_TEMPLATE)
 
-%.web.html: %.md $(REVEALJS_THEME) $(REVEALJS_WEB)
-	$(PANDOC) --from=markdown --to=revealjs --output=$@ --standalone $(PANDOCFLAGS) $(REVEALJS_WEB) $(REVEALJS_THEME) $<
+%.html: override PANDOCFLAGS += \
+	--to=revealjs \
+	--template=$(REVEALJS_TEMPLATE) \
+	--standalone \
+	--no-highlight \
+	$(REVEALJS_THEME)
+%.web.html: override PANDOCFLAGS += $(REVEALJS_WEB)
+
+%.html: %.md $(DEPS)
+	$(PANDOC) $(PANDOCFLAGS) --from=markdown --output=$@ $<
+
+%.web.html: %.md $(DEPS)
+	$(PANDOC) $(PANDOCFLAGS) --from=markdown --output=$@ $<
