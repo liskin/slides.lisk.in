@@ -98,6 +98,18 @@ def test_unsafe_chars(self, jenkins_mock):
 
 ## Code coverage
 
+::: smaller
+> "For example, to have confidence in the testing of a program, we should want
+> to know to what extent our tests actually covered the coding. \[…\] a record
+> of those areas of coding that have and have not been executed in the course
+> of running tests."
+
+| The Psychology of Computer Programming
+| [(Gerald M. Weinberg, 1971)]{.x-smaller}
+:::
+
+---
+
 :::::: columns
 ::: {.column width=30%}
 měříme, kolik
@@ -136,6 +148,8 @@ def test_divisble_by_ten():
 
 ---
 
+(kolik z vás to používá?)
+
 ## Mutation testing
 
 ---
@@ -149,3 +163,11 @@ def test_divisble_by_ten():
 | The Pragmatic Programmer
 | [(Andrew Hunt and David Thomas, 2000)]{.x-smaller}
 :::
+
+---
+
+> "Overconfidence by the programmer could be attacked by a system that
+> introduced random errors into the program under test."
+
+| The Psychology of Computer Programming
+| [(Gerald M. Weinberg, 1971)]{.smaller}
