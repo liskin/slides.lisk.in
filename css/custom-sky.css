@@ -37,5 +37,34 @@
 .reveal h4 { font-size: 1em; }
 
 .reveal pre {
-	background-color: rgba(135, 206, 235, 0.2);
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+.reveal blockquote {
+	background-color: rgba(255, 255, 255, 0.4);
+	font-style: normal;
+}
+
+.reveal em {
+	text-shadow:
+		rgba(255, 255, 200, 0.5) -0.03em -0.03em 0.5em,
+		rgba(255, 255, 200, 0.5)  0.03em -0.03em 0.5em,
+		rgba(255, 255, 200, 0.5) -0.03em  0.03em 0.5em,
+		rgba(255, 255, 200, 0.5)  0.03em  0.03em 0.5em;
+}
+
+.reveal .smaller {
+	font-size: 80%;
+}
+
+.reveal .x-smaller {
+	font-size: 70%;
+}
+
+.reveal .xx-smaller {
+	font-size: 60%;
+}
+
+div.sourceCode {
+	margin: 0;
 }
