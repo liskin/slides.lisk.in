@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Courgette&subset=latin-ext');
-@import url('https://fonts.googleapis.com/css?family=Patrick+Hand&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Courgette:400,400i,700,700i&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Patrick+Hand:400,400i,700,700i&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,400i,700,700i&subset=latin-ext');
 
 @font-face {
 	font-family: emoji;
@@ -42,6 +43,10 @@
 
 .reveal code {
 	white-space: unset;
+}
+
+.reveal pre, .reveal code {
+	font-family: 'Roboto Mono', monospace;
 }
 
 .reveal blockquote {
