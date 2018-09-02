@@ -26,9 +26,9 @@ date: 5. 9. 2018 --- [Zonky QA Meetup](https://www.facebook.com/events/951789721
 ## Zažijte selhání
 
 ::: smaller
-> After you have written a test to detect a particular bug, _cause_ the bug
+> "After you have written a test to detect a particular bug, _cause_ the bug
 > deliberately and make sure the test complains. This ensures that the test
-> will catch the bug if it happens for real.
+> will catch the bug if it happens for real."
 
 | The Pragmatic Programmer
 | [(Andrew Hunt and David Thomas, 2000)]{.x-smaller}
@@ -99,10 +99,10 @@ def test_unsafe_chars(self, jenkins_mock):
 ---
 
 ::: smaller
-> If you are _really_ serious about testing, you might want to appoint a
+> "If you are _really_ serious about testing, you might want to appoint a
 > _project saboteur_. The saboteur's role is to take a separate copy of the
 > source tree, introduce bugs on purpose, and verify that the tests will catch
-> them.
+> them."
 
 | The Pragmatic Programmer
 | [(Andrew Hunt and David Thomas, 2000)]{.x-smaller}
