@@ -202,3 +202,247 @@ public class AbsTest {
 (kolik z vás to používá?)
 
 ✋
+
+# Testování testovací infrastruktury
+
+## Naše CI infrastruktura
+
+- „velký“ Jenkins
+- 1500 jobů z 500 šablon
+  ([jenkins-job-builder](https://docs.openstack.org/infra/jenkins-job-builder/))
+- tisíce buildů denně
+- 20k řádků YAMLů 💩
+
+---
+
+::::::::: xx-smaller
+:::::: columns
+::: column
+```yaml
+- job-template:
+    name: '{folder}/delivery-promote-packages'
+    node: 'simple'
+    parameters:
+      - choice:
+          name: REPO_STAGE
+          choices:
+              - testing > develop
+              - develop > release
+              - release > preprod
+              - preprod > master
+      - text:
+          name: REPOSITORIES
+          default: …
+      - text:
+          name: RPMS
+          default: ALL
+      - bool:
+          name: DRY_RUN
+      - text:
+          name: BLACKLIST
+    wrappers:
+      - default-wrappers
+      - workspace-cleanup
+    builders:
+      - checkout-ci-infra
+      - shell: |
+          ci-infra/…/bin/promote-packages.sh
+      - promote-notification
+```
+:::
+::: column
+```yaml
+      - conditional-step:
+          condition-kind: and
+          condition-operands:
+            - condition-kind: strings-match
+              condition-string1: '$REPO_STAGE'
+              condition-string2:
+                'develop > release'
+            - condition-kind: strings-match
+              condition-string1: '$RPMS'
+              condition-string2: 'ALL'
+            - condition-kind: not
+              condition-operand:
+                condition-kind:
+                  boolean-expression
+                condition-expression: '$DRY_RUN'
+          on-evaluation-failure: dont-run
+          steps:
+            - trigger-builds:
+              - project:
+                  '{folder}/delivery-promote-packages'
+                predefined-parameters: |
+                  REPO_STAGE=testing > develop
+                  REPOSITORIES=$REPOSITORIES
+                  BLACKLIST=ipa.*
+    publishers:
+      - archive:
+          artifacts: '*.log'
+          allow-empty: 'true'
+```
+:::
+::::::
+:::::::::
+
+---
+
+Jak chcete tohle refaktorovat?
+
+🤕
+
+## Řešení
+
+- většina logiky je v „Execute Shell“ build krocích
+- (ano, i spouštění mavenu/gradlu)
+- ⇒ dáme tam všechnu a napíšeme unit testy
+
+## Cram
+
+> Cram is a functional testing framework for command line applications. Cram
+> tests look like snippets of interactive shell sessions.
+
+<https://bitheap.org/cram/>
+
+---
+
+:::::: columns
+::: {.column width=35%}
+```rst
+my test case::
+
+  $ A=1
+  $ echo "$A"
+  $ [[ $A == 2 ]]
+```
+:::
+::: {.column .fragment width=65%}
+```diff
+$ cram --shell=/bin/bash -i a.t
+!
+--- a.t
++++ a.t.err
+@@ -2,4 +2,6 @@
+
+   $ A=1
+   $ echo "$A"
++  1
+   $ [[ $A == 2 ]]
++  [1]
+Accept this change? [yN] y
+patching file a.t
+
+# Ran 1 tests, 0 skipped, 1 failed.
+```
+:::
+::::::
+
+---
+
+```rst
+my finished test case::
+
+  $ A=1
+  $ echo "$A"
+  1
+  $ [[ $A == 2 ]]
+  [1]
+```
+
+```text
+$ cram --shell=/bin/bash -i a.t
+.
+# Ran 1 tests, 0 skipped, 0 failed.
+```
+
+## fake
+
+> Fake is a small tool to create test doubles for commandline utilities.
+
+<https://github.com/roman-neuhauser/fake>
+
+---
+
+```rst
+  $ . $TESTROOT/setup
+
+  $ hostname -f
+  laptop.example.com
+
+  $ fake -o <<<'google.com' hostname -f
+
+  $ hostname -f
+  google.com
+```
+
+---
+
+```rst
+  $ . $TESTROOT/setup
+
+  $ fake -o <<<'localhost' hostname
+
+  $ hostname -f
+  fake: error: argv mismatch
+  fake: expected: hostname
+  fake: received: hostname -f
+  [100]
+```
+
+---
+
+```rst
+  $ . $TESTROOT/setup
+
+  $ fake -c sleep
+
+  $ sleep 1
+  $ sleep 2
+  $ sleep 5
+```
+
+---
+
+```rst
+  $ . $TESTROOT/setup
+
+  $ fake -b <<\EOF git clone \
+  >   git@github.com:gooddata/repo.git
+  > #!/bin/sh
+  > mkdir repo
+  > touch repo/file
+  > EOF
+
+  $ git clone git@github.com:gooddata/repo.git
+  $ find repo
+  repo
+  repo/file
+```
+
+## bubblewrap
+
+> Unprivileged sandboxing tool.
+
+<https://github.com/projectatomic/bubblewrap>
+
+---
+
+```shell
+$ bwrap \
+  --unshare-all \
+  --ro-bind / / \
+  --proc /proc \
+  --dev /dev \
+  --tmpfs /tmp \
+  rm -rf --no-preserve-root /
+```
+
+## cram + fake + bwrap
+
+👍
+
+# 👋
+
+---
+
+<https://store.lisk.in/slides>
