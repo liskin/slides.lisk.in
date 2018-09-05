@@ -150,7 +150,11 @@ def test_divisble_by_ten():
 
 (kolik z vás to používá?)
 
+✋
+
 ## Mutation testing
+
+- „opravdovější“ code coverage
 
 ---
 
@@ -171,3 +175,30 @@ def test_divisble_by_ten():
 
 | The Psychology of Computer Programming
 | [(Gerald M. Weinberg, 1971)]{.smaller}
+
+---
+
+::: smaller
+<pre class="java"><code data-noescape
+>import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+public class AbsTest {
+	private double abs(double x) {
+		return x > 0 ? x : -x;
+	}
+
+	@Test public void absTest() {
+		assertTrue(new Double(1.0d).equals(abs(1.0d)));
+		assertTrue(new Double(1.0d).equals(abs(-1.0d)));
+		<span class="fragment">assertTrue(new Double(0.0d).equals(abs(0.0d)));</span>
+	}
+}
+</code></pre>
+:::
+
+---
+
+(kolik z vás to používá?)
+
+✋
