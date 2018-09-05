@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Courgette&subset=latin-ext');
-@import url('https://fonts.googleapis.com/css?family=Patrick+Hand&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Courgette:400,400i,700,700i&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Patrick+Hand:400,400i,700,700i&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,400i,700,700i&subset=latin-ext');
 
 @font-face {
 	font-family: emoji;
@@ -37,5 +38,47 @@
 .reveal h4 { font-size: 1em; }
 
 .reveal pre {
-	background-color: rgba(135, 206, 235, 0.2);
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+.reveal code {
+	white-space: unset;
+}
+
+.reveal pre, .reveal code {
+	font-family: 'Roboto Mono', monospace;
+}
+
+.reveal blockquote {
+	width: 80%;
+	background-color: rgba(255, 255, 255, 0.4);
+	font-style: normal;
+}
+
+.reveal em {
+	text-shadow:
+		rgba(255, 255, 200, 0.5) -0.03em -0.03em 0.5em,
+		rgba(255, 255, 200, 0.5)  0.03em -0.03em 0.5em,
+		rgba(255, 255, 200, 0.5) -0.03em  0.03em 0.5em,
+		rgba(255, 255, 200, 0.5)  0.03em  0.03em 0.5em;
+}
+
+.reveal .smaller {
+	font-size: 80%;
+}
+
+.reveal .x-smaller {
+	font-size: 65%;
+}
+
+.reveal .xx-smaller {
+	font-size: 50%;
+}
+
+.reveal .slides section .fragment.highlight-mark {
+	opacity: 1;
+	visibility: inherit;
+}
+.reveal .slides section .fragment.highlight-mark.visible {
+	background-color: rgba(255, 255, 0, 0.5);
 }
