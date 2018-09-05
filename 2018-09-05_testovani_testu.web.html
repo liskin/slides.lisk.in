@@ -16,6 +16,7 @@
   </style>
   <link rel="stylesheet" href="https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/css/theme/sky.css" id="theme">
   <link rel="stylesheet" href="css/custom-sky.css"/>
+  <link rel="stylesheet" href="css/custom-highlight.css"/>
   <!-- Printing and PDF exports -->
   <script>
     var link = document.createElement( 'link' );
@@ -34,51 +35,387 @@
 
 <section id="title-slide">
   <h1 class="title">Testování testů</h1>
-  <p class="author">Tomáš Janoušek<br />
-(tools &amp; infra @ <a href="https://www.gooddata.com/company/careers-list">GoodData</a>)</p>
+  <p class="author"><div class="line-block">Tomáš Janoušek<br />
+(tools &amp; infra @ <a href="https://www.gooddata.com/company/careers-list">GoodData</a>)</div></p>
   <p class="date">5. 9. 2018 — <a href="https://www.facebook.com/events/951789721691848/">Zonky QA Meetup</a></p>
 </section>
 
-<section id="proč" class="slide level2">
+<section><section id="intro" class="title-slide slide level1"><h1>Intro</h1></section><section id="proč" class="slide level2">
 <h2>Proč?</h2>
 <ul>
 <li>kód testujeme</li>
 <li>testy jsou kód</li>
 <li>∴ testy testujeme</li>
 </ul>
-<aside class="notes">
-<ul>
-<li>x</li>
-<li>y</li>
-</ul>
-</aside>
-</section>
-<section id="a-co-infrastruktura" class="slide level2">
+</section><section id="a-co-infrastruktura" class="slide level2">
 <h2>A co infrastruktura?</h2>
 <ul>
 <li>testovací infrastruktura je taky kód</li>
 <li>kód testujeme</li>
 <li>∴ infrastrukturu testujeme</li>
 </ul>
-<!--
-## lalala
+</section></section>
+<section><section id="testování-testů-samotných" class="title-slide slide level1"><h1>Testování testů samotných</h1></section><section id="zažijte-selhání" class="slide level2">
+<h2>Zažijte selhání</h2>
+<div class="smaller">
+<blockquote>
+<p>“After you have written a test to detect a particular bug, <em>cause</em> the bug deliberately and make sure the test complains. This ensures that the test will catch the bug if it happens for real.”</p>
+</blockquote>
+<div class="line-block">The Pragmatic Programmer<br />
+<span class="x-smaller">(Andrew Hunt and David Thomas, 2000)</span></div>
+</div>
+</section><section class="slide level2">
 
-- [ahoj](https://nomi.cz/)
+<pre class="diff"><code>@@ -544,6 +544,7 @@ class Jenkins(object):
+ 
+   &quot;&quot;&quot;
+   url = &#39;/&#39;.join((item, INFO)).lstrip(&#39;/&#39;)
++  url = quote(url)
+   if query:
+     url += query
+   try:</code></pre>
+<p><a href="https://git.openstack.org/cgit/openstack/python-jenkins/commit/?id=16007e01858cc5d36afdc31d22b5644f91a1f935">python-jenkins, git commit 16007e01</a></p>
+</section><section class="slide level2">
 
-:::::: columns
-::: {.column width="60%"}
-```c
-if (a > 5) {
-    a = 5
+<div class="smaller">
+<pre class="python"><code data-noescape
+>@patch.object(jenkins.Jenkins, 'jenkins_open')
+def test_unsafe_chars(self, jenkins_mock):
+  response = build_jobs_list_responses(
+    self.jobs_in_unsafe_name_folders, 'http://example.com/')
+  jenkins_mock.side_effect = iter(response)
+
+  jobs_info = self.j.get_all_jobs()
+
+  expected_fullnames = [
+    u"my_job1", u"my_job2",
+    u"my_folder1/my_job3", u"my_folder1/my_job4",
+<span class="fragment highlight-mark">    u"my_folder1/my spaced folder/my job 5"</span>
+  ]
+  self.assertEqual(len(expected_fullnames), len(jobs_info))
+<span class="fragment highlight-mark">  got_fullnames = [job[u"fullname"] for job in jobs_info]
+  self.assertEqual(expected_fullnames, got_fullnames)</span>
+</code></pre>
+</div>
+</section><section class="slide level2">
+
+<div class="smaller">
+<pre class="diff"><code>@@ -76,3 +98,11 @@ class JenkinsGetAllJobsTest(JenkinsGetJobsTestBase):
+   self.assertEqual(len(expected_fullnames), len(jobs_info))
+   got_fullnames = [job[u&quot;fullname&quot;] for job in jobs_info]
+   self.assertEqual(expected_fullnames, got_fullnames)
++
++  expected_request_urls = [
++    self.make_url(&#39;api/json&#39;),
++    self.make_url(&#39;job/my_folder1/api/json&#39;),
++    self.make_url(&#39;job/my_folder1/job/my%20spaced%20folder/api/json&#39;)
++  ]
++  self.assertEqual(expected_request_urls,
++                   self.got_request_urls(jenkins_mock))</code></pre>
+</div>
+</section><section id="myslete-dlouhodobě" class="slide level2">
+<h2>Myslete dlouhodobě</h2>
+<ul>
+<li>kód se mění</li>
+<li>testy zastarávají</li>
+</ul>
+</section><section id="code-coverage" class="slide level2">
+<h2>Code coverage</h2>
+<div class="smaller">
+<blockquote>
+<p>“For example, to have confidence in the testing of a program, we should want to know to what extent our tests actually covered the coding. […] a record of those areas of coding that have and have not been executed in the course of running tests.”</p>
+</blockquote>
+<div class="line-block">The Psychology of Computer Programming<br />
+<span class="x-smaller">(Gerald M. Weinberg, 1971)</span></div>
+</div>
+</section><section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:30%;">
+<p>měříme, kolik</p>
+</div><div class="column" style="width:30%;">
+<ul>
+<li>souborů</li>
+<li>funkcí</li>
+<li>řádků</li>
+<li>větví</li>
+<li>podmínek</li>
+</ul>
+</div><div class="column" style="width:40%;">
+<p>máme pokryto testy</p>
+</div>
+</div>
+</section><section class="slide level2">
+
+<pre class="python"><code>def divisible_by_ten(n):
+    if (n % 10 == 0):
+        return True
+    else:
+        return false
+
+def test_divisble_by_ten():
+    assert divisible_by_ten(0)
+    assert divisible_by_ten(10)
+    assert divisible_by_ten(20)
+    assert divisible_by_ten(100)</code></pre>
+</section><section class="slide level2">
+
+<img data-src="img/2018-09-05_testovani_testu/coverage.png" class="stretch" />
+</section><section class="slide level2">
+
+<p>(kolik z vás to používá?)</p>
+<p>✋</p>
+</section><section id="mutation-testing" class="slide level2">
+<h2>Mutation testing</h2>
+<ul>
+<li>„opravdovější“ code coverage</li>
+</ul>
+</section><section class="slide level2">
+
+<div class="smaller">
+<blockquote>
+<p>“If you are <em>really</em> serious about testing, you might want to appoint a <em>project saboteur</em>. The saboteur’s role is to take a separate copy of the source tree, introduce bugs on purpose, and verify that the tests will catch them.”</p>
+</blockquote>
+<div class="line-block">The Pragmatic Programmer<br />
+<span class="x-smaller">(Andrew Hunt and David Thomas, 2000)</span></div>
+</div>
+</section><section class="slide level2">
+
+<blockquote>
+<p>“Overconfidence by the programmer could be attacked by a system that introduced random errors into the program under test.”</p>
+</blockquote>
+<div class="line-block">The Psychology of Computer Programming<br />
+<span class="smaller">(Gerald M. Weinberg, 1971)</span></div>
+</section><section class="slide level2">
+
+<div class="smaller">
+<pre class="java"><code data-noescape
+>import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+public class AbsTest {
+    private double abs(double x) {
+        return x > 0 ? x : -x;
+    }
+
+    @Test public void absTest() {
+        assertTrue(new Double(1.0d).equals(abs(1.0d)));
+        assertTrue(new Double(1.0d).equals(abs(-1.0d)));
+        <span class="fragment">assertTrue(new Double(0.0d).equals(abs(0.0d)));</span>
+    }
 }
-```
-:::
-::: {.column width="40%"}
-a
-:::
-::::::
--->
-</section>
+</code></pre>
+</div>
+</section><section class="slide level2">
+
+<p>(kolik z vás to používá?)</p>
+<p>✋</p>
+</section></section>
+<section><section id="testování-testovací-infrastruktury" class="title-slide slide level1"><h1>Testování testovací infrastruktury</h1></section><section id="naše-ci-infrastruktura" class="slide level2">
+<h2>Naše CI infrastruktura</h2>
+<ul>
+<li>„velký“ Jenkins</li>
+<li>1500 jobů z 500 šablon (<a href="https://docs.openstack.org/infra/jenkins-job-builder/">jenkins-job-builder</a>)</li>
+<li>tisíce buildů denně</li>
+<li>20k řádků YAMLů 💩</li>
+</ul>
+</section><section class="slide level2">
+
+<div class="xx-smaller">
+<div class="columns">
+<div class="column">
+<pre class="yaml"><code>- job-template:
+    name: &#39;{folder}/delivery-promote-packages&#39;
+    node: &#39;simple&#39;
+    parameters:
+      - choice:
+          name: REPO_STAGE
+          choices:
+              - testing &gt; develop
+              - develop &gt; release
+              - release &gt; preprod
+              - preprod &gt; master
+      - text:
+          name: REPOSITORIES
+          default: …
+      - text:
+          name: RPMS
+          default: ALL
+      - bool:
+          name: DRY_RUN
+      - text:
+          name: BLACKLIST
+    wrappers:
+      - default-wrappers
+      - workspace-cleanup
+    builders:
+      - checkout-ci-infra
+      - shell: |
+          ci-infra/…/bin/promote-packages.sh
+      - promote-notification</code></pre>
+</div><div class="column">
+<pre class="yaml"><code>      - conditional-step:
+          condition-kind: and
+          condition-operands:
+            - condition-kind: strings-match
+              condition-string1: &#39;$REPO_STAGE&#39;
+              condition-string2:
+                &#39;develop &gt; release&#39;
+            - condition-kind: strings-match
+              condition-string1: &#39;$RPMS&#39;
+              condition-string2: &#39;ALL&#39;
+            - condition-kind: not
+              condition-operand:
+                condition-kind:
+                  boolean-expression
+                condition-expression: &#39;$DRY_RUN&#39;
+          on-evaluation-failure: dont-run
+          steps:
+            - trigger-builds:
+              - project:
+                  &#39;{folder}/delivery-promote-packages&#39;
+                predefined-parameters: |
+                  REPO_STAGE=testing &gt; develop
+                  REPOSITORIES=$REPOSITORIES
+                  BLACKLIST=ipa.*
+    publishers:
+      - archive:
+          artifacts: &#39;*.log&#39;
+          allow-empty: &#39;true&#39;</code></pre>
+</div>
+</div>
+</div>
+</section><section class="slide level2">
+
+<p>Jak chcete tohle refaktorovat?</p>
+<p>🤕</p>
+</section><section id="řešení" class="slide level2">
+<h2>Řešení</h2>
+<ul>
+<li>většina logiky je v „Execute Shell“ build krocích</li>
+<li>(ano, i spouštění mavenu/gradlu)</li>
+<li>⇒ dáme tam všechnu a napíšeme unit testy</li>
+</ul>
+</section><section id="cram" class="slide level2">
+<h2>Cram</h2>
+<blockquote>
+<p>Cram is a functional testing framework for command line applications. Cram tests look like snippets of interactive shell sessions.</p>
+</blockquote>
+<p><a href="https://bitheap.org/cram/" class="uri">https://bitheap.org/cram/</a></p>
+</section><section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:35%;">
+<pre class="rst"><code>my test case::
+
+  $ A=1
+  $ echo &quot;$A&quot;
+  $ [[ $A == 2 ]]</code></pre>
+</div><div class="column fragment" style="width:65%;">
+<pre class="diff"><code>$ cram --shell=/bin/bash -i a.t
+!
+--- a.t
++++ a.t.err
+@@ -2,4 +2,6 @@
+
+   $ A=1
+   $ echo &quot;$A&quot;
++  1
+   $ [[ $A == 2 ]]
++  [1]
+Accept this change? [yN] y
+patching file a.t
+
+# Ran 1 tests, 0 skipped, 1 failed.</code></pre>
+</div>
+</div>
+</section><section class="slide level2">
+
+<pre class="rst"><code>my finished test case::
+
+  $ A=1
+  $ echo &quot;$A&quot;
+  1
+  $ [[ $A == 2 ]]
+  [1]</code></pre>
+<pre class="text"><code>$ cram --shell=/bin/bash -i a.t
+.
+# Ran 1 tests, 0 skipped, 0 failed.</code></pre>
+</section><section id="fake" class="slide level2">
+<h2>fake</h2>
+<blockquote>
+<p>Fake is a small tool to create test doubles for commandline utilities.</p>
+</blockquote>
+<p><a href="https://github.com/roman-neuhauser/fake" class="uri">https://github.com/roman-neuhauser/fake</a></p>
+</section><section class="slide level2">
+
+<pre class="rst"><code>  $ . $TESTROOT/setup
+
+  $ hostname -f
+  laptop.example.com
+
+  $ fake -o &lt;&lt;&lt;&#39;google.com&#39; hostname -f
+
+  $ hostname -f
+  google.com</code></pre>
+</section><section class="slide level2">
+
+<pre class="rst"><code>  $ . $TESTROOT/setup
+
+  $ fake -o &lt;&lt;&lt;&#39;localhost&#39; hostname
+
+  $ hostname -f
+  fake: error: argv mismatch
+  fake: expected: hostname
+  fake: received: hostname -f
+  [100]</code></pre>
+</section><section class="slide level2">
+
+<pre class="rst"><code>  $ . $TESTROOT/setup
+
+  $ fake -c sleep
+
+  $ sleep 1
+  $ sleep 2
+  $ sleep 5</code></pre>
+</section><section class="slide level2">
+
+<pre class="rst"><code>  $ . $TESTROOT/setup
+
+  $ fake -b &lt;&lt;\EOF git clone \
+  &gt;   git@github.com:gooddata/repo.git
+  &gt; #!/bin/sh
+  &gt; mkdir repo
+  &gt; touch repo/file
+  &gt; EOF
+
+  $ git clone git@github.com:gooddata/repo.git
+  $ find repo
+  repo
+  repo/file</code></pre>
+</section><section id="bubblewrap" class="slide level2">
+<h2>bubblewrap</h2>
+<blockquote>
+<p>Unprivileged sandboxing tool.</p>
+</blockquote>
+<p><a href="https://github.com/projectatomic/bubblewrap" class="uri">https://github.com/projectatomic/bubblewrap</a></p>
+</section><section class="slide level2">
+
+<pre class="shell"><code>$ bwrap \
+  --unshare-all \
+  --ro-bind / / \
+  --proc /proc \
+  --dev /dev \
+  --tmpfs /tmp \
+  rm -rf --no-preserve-root /</code></pre>
+</section><section id="cram-fake-bwrap" class="slide level2">
+<h2>cram + fake + bwrap</h2>
+<p>👍</p>
+</section></section>
+<section><section id="section" class="title-slide slide level1"><h1>👋</h1></section><section class="slide level2">
+
+<p><a href="https://store.lisk.in/slides" class="uri">https://store.lisk.in/slides</a></p>
+</section></section>
     </div>
   </div>
 
@@ -110,7 +447,8 @@ a
         dependencies: [
           { src: 'https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
           { src: 'https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/plugin/zoom-js/zoom.js', async: true },
-          { src: 'https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/plugin/notes/notes.js', async: true }
+          { src: 'https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/plugin/notes/notes.js', async: true },
+          { src: 'https://cdn.rawgit.com/hakimel/reveal.js/3.7.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
         ]
       });
     </script>
