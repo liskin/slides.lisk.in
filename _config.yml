@@ -1,10 +1,10 @@
 exclude:
+    - 'CNAME'
+    - 'LICENSE'
+    - 'Makefile'
     - 'reveal.js'
-    - '*.yaml'
-    - '*.md'
-    - '*.html'
-    - '[A-Z]*'
+    - 'revealjs-*'
+    - '????-??-??_*.md'
 
 include:
-    - 'README.md'
-    - '*.web.html'
+    - '????-??-??_*.web.html'
