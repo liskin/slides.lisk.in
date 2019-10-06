@@ -1,0 +1,10 @@
+exclude:
+    - 'reveal.js'
+    - '*.yaml'
+    - '*.md'
+    - '*.html'
+    - '[A-Z]*'
+
+include:
+    - 'README.md'
+    - '*.web.html'
