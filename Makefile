@@ -1,8 +1,14 @@
 PANDOC ?= pandoc
 PANDOCFLAGS ?=
 
+SOURCES = $(wildcard ????-??-??_*.md)
+
 .PHONY: all
-all: 2018-09-05_testovani_testu.html
+all: $(if $(wildcard _config.yml),web,local)
+
+.PHONY: local web
+local: $(SOURCES:.md=.html)
+web: $(SOURCES:.md=.web.html)
 
 REVEALJS_WEB = revealjs-web.yaml
 REVEALJS_THEME = revealjs-theme-sky.yaml
