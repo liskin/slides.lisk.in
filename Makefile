@@ -31,3 +31,17 @@ clean:
 .PHONY: livereload
 livereload:
 	python3 -c 'from livereload import Server, shell; server = Server(); server.watch(".", shell("make")); server.serve();'
+
+# --------- gh-pages ---------
+
+.PHONY: build
+build:
+	jekyll build --config _config.yml,_config.github.yml
+
+.PHONY: serve
+serve:
+	jekyll serve --config _config.yml,_config.github.yml --host localhost --port 12345 --livereload
+
+.PHONY: serve-public
+serve-public:
+	jekyll serve --config _config.yml,_config.github.yml --host 0.0.0.0 --port 12123 --livereload --livereload-port 12124
