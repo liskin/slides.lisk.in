@@ -52,7 +52,7 @@ date: 5. 9. 2018 --- [Zonky QA Meetup](https://www.facebook.com/events/951789721
 ---
 
 ::: smaller
-<pre class="python"><code data-noescape
+<pre class="python"><code data-line-numbers="|12|12,15-16"
 >@patch.object(jenkins.Jenkins, 'jenkins_open')
 def test_unsafe_chars(self, jenkins_mock):
   response = build_jobs_list_responses(
@@ -64,11 +64,11 @@ def test_unsafe_chars(self, jenkins_mock):
   expected_fullnames = [
     u"my_job1", u"my_job2",
     u"my_folder1/my_job3", u"my_folder1/my_job4",
-<span class="fragment highlight-mark">    u"my_folder1/my spaced folder/my job 5"</span>
+    u"my_folder1/my spaced folder/my job 5"
   ]
   self.assertEqual(len(expected_fullnames), len(jobs_info))
-<span class="fragment highlight-mark">  got_fullnames = [job[u"fullname"] for job in jobs_info]
-  self.assertEqual(expected_fullnames, got_fullnames)</span>
+  got_fullnames = [job[u"fullname"] for job in jobs_info]
+  self.assertEqual(expected_fullnames, got_fullnames)
 </code></pre>
 :::
 
@@ -308,7 +308,7 @@ Jak chcete tohle refaktorovat?
 
 :::::: columns
 ::: {.column width=35%}
-```rst
+```shell
 my test case::
 
   $ A=1
@@ -339,7 +339,7 @@ patching file a.t
 
 ---
 
-```rst
+```shell
 my finished test case::
 
   $ A=1
@@ -349,7 +349,7 @@ my finished test case::
   [1]
 ```
 
-```text
+```shell
 $ cram --shell=/bin/bash -i a.t
 .
 # Ran 1 tests, 0 skipped, 0 failed.
@@ -363,7 +363,7 @@ $ cram --shell=/bin/bash -i a.t
 
 ---
 
-```rst
+```shell
   $ . $TESTROOT/setup
 
   $ hostname -f
@@ -377,7 +377,7 @@ $ cram --shell=/bin/bash -i a.t
 
 ---
 
-```rst
+```shell
   $ . $TESTROOT/setup
 
   $ fake -o <<<'localhost' hostname
@@ -391,7 +391,7 @@ $ cram --shell=/bin/bash -i a.t
 
 ---
 
-```rst
+```shell
   $ . $TESTROOT/setup
 
   $ fake -c sleep
@@ -403,7 +403,7 @@ $ cram --shell=/bin/bash -i a.t
 
 ---
 
-```rst
+```shell
   $ . $TESTROOT/setup
 
   $ fake -b <<\EOF git clone \

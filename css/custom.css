@@ -1,0 +1,40 @@
+span.smallcaps {
+	font-variant: small-caps;
+}
+
+span.underline {
+	text-decoration: underline;
+}
+
+div.column {
+	display: inline-block;
+	vertical-align: middle;
+	width: 50%;
+}
+
+.smaller {
+	font-size: 80%;
+}
+
+.x-smaller {
+	font-size: 65%;
+}
+
+.xx-smaller {
+	font-size: 50%;
+}
+
+.table-border table {
+	margin-top: 2px;
+	margin-bottom: 2px;
+	border: 1px solid;
+	border-collapse: collapse;
+}
+
+.table-border table th, table td {
+	border: 1px solid;
+}
+
+.table-inline table {
+	display: inline-table;
+}
