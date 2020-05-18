@@ -16,16 +16,8 @@ $endif$
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="$revealjs-url$/css/reset.css">
   <link rel="stylesheet" href="$revealjs-url$/css/reveal.css">
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-$if(quotes)$
-      q { quotes: "“" "”" "‘" "’"; }
-$endif$
-  </style>
 $if(highlighting-css)$
   <style type="text/css">
 $highlighting-css$
@@ -88,7 +80,6 @@ $body$
     </div>
   </div>
 
-  <script src="$revealjs-url$/lib/js/head.min.js"></script>
   <script src="$revealjs-url$/js/reveal.js"></script>
 
   <script>
@@ -114,6 +105,11 @@ $if(history)$
 $else$
         history: true,
 $endif$
+$if(hash)$
+        hash: $hash$,
+$else$
+        hash: true,
+$endif$
 $if(keyboard)$
         // Enable keyboard shortcuts for navigation
         keyboard: $keyboard$,
@@ -137,6 +133,10 @@ $endif$
 $if(rtl)$
         // Change the presentation direction to be RTL
         rtl: $rtl$,
+$endif$
+$if(navigationMode)$
+        // See https://github.com/hakimel/reveal.js/#navigation-mode
+        navigationMode: '$navigationMode$',
 $endif$
 $if(fragments)$
         // Turns fragments on and off globally
@@ -169,6 +169,10 @@ $endif$
 $if(mouseWheel)$
         // Enable slide navigation via mouse wheel
         mouseWheel: $mouseWheel$,
+$endif$
+$if(rollingLinks)$
+        // Apply a 3D roll to links on hover
+        rollingLinks: $rollingLinks$,
 $endif$
 $if(hideAddressBar)$
         // Hides the address bar on mobile devices
@@ -237,7 +241,7 @@ $if(maxScale)$
 $endif$
 $if(mathjax)$
         math: {
-          mathjax: '/usr/share/javascript/mathjax/MathJax.js',
+          mathjax: '$mathjaxurl$',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -259,7 +263,7 @@ $endif$
           { src: '$revealjs-url$/lib/js/classList.js', condition: function() { return !document.body.classList; } },
           { src: '$revealjs-url$/plugin/zoom-js/zoom.js', async: true },
 $if(notes-server)$
-          { src: '$revealjs-url$/socket.io/socker.io.js', async: true },
+          { src: '$revealjs-url$/socket.io/socket.io.js', async: true },
           { src: '$revealjs-url$/plugin/notes-server/client.js', async: true },
 $endif$
 $if(mathjax)$

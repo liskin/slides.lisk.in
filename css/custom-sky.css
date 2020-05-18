@@ -41,18 +41,28 @@
 	background-color: rgba(255, 255, 255, 0.8);
 }
 
-.reveal code {
-	white-space: unset;
-}
-
 .reveal pre, .reveal code {
 	font-family: 'Roboto Mono', monospace;
+}
+
+.reveal pre em {
+	font-style: unset;
+	background-color: rgba(255, 255, 0, 0.5);
+	text-shadow: unset;
+}
+
+.reveal pre code {
+	max-height: unset;
 }
 
 .reveal blockquote {
 	width: 80%;
 	background-color: rgba(255, 255, 255, 0.4);
 	font-style: normal;
+}
+
+.reveal figure {
+	margin: 0;
 }
 
 .reveal em {
@@ -63,22 +73,17 @@
 		rgba(255, 255, 200, 0.5)  0.03em  0.03em 0.5em;
 }
 
-.reveal .smaller {
-	font-size: 80%;
-}
-
-.reveal .x-smaller {
-	font-size: 65%;
-}
-
-.reveal .xx-smaller {
-	font-size: 50%;
-}
-
-.reveal .slides section .fragment.highlight-mark {
+.reveal .slides section .fragment.highlight-mark:not(.fade-in),
+.reveal .slides section .fragment.highlight-current-mark:not(.fade-in) {
 	opacity: 1;
 	visibility: inherit;
 }
-.reveal .slides section .fragment.highlight-mark.visible {
+
+.reveal .slides section .fragment.highlight-mark.visible,
+.reveal .slides section .fragment.highlight-current-mark.current-fragment {
 	background-color: rgba(255, 255, 0, 0.5);
+}
+
+.reveal .table-border table {
+	background: rgba(255, 255, 255, 0.8);
 }
