@@ -7,26 +7,22 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hakimel/reveal.js@3.7.0/css/reveal.css">
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hakimel/reveal.js@3.7.0/css/theme/sky.css" id="theme">
-  <link rel="stylesheet" href="css/custom-sky.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/liskin/reveal.js@3.9.2-liskin1/css/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/liskin/reveal.js@3.9.2-liskin1/css/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/liskin/reveal.js@3.9.2-liskin1/css/theme/sky.css" id="theme">
   <link rel="stylesheet" href="css/custom-highlight.css"/>
+  <link rel="stylesheet" href="css/custom-sky.css"/>
+  <link rel="stylesheet" href="css/custom.css"/>
   <!-- Printing and PDF exports -->
   <script>
     var link = document.createElement( 'link' );
     link.rel = 'stylesheet';
     link.type = 'text/css';
-    link.href = window.location.search.match( /print-pdf/gi ) ? 'https://cdn.jsdelivr.net/gh/hakimel/reveal.js@3.7.0/css/print/pdf.css' : 'https://cdn.jsdelivr.net/gh/hakimel/reveal.js@3.7.0/css/print/paper.css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'https://cdn.jsdelivr.net/gh/liskin/reveal.js@3.9.2-liskin1/css/print/pdf.css' : 'https://cdn.jsdelivr.net/gh/liskin/reveal.js@3.9.2-liskin1/css/print/paper.css';
     document.getElementsByTagName( 'head' )[0].appendChild( link );
   </script>
   <!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/gh/hakimel/reveal.js@3.7.0/lib/js/html5shiv.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/liskin/reveal.js@3.9.2-liskin1/lib/js/html5shiv.js"></script>
   <![endif]-->
 </head>
 <body>
@@ -78,7 +74,7 @@
 </section><section class="slide level2">
 
 <div class="smaller">
-<pre class="python"><code data-noescape
+<pre class="python"><code data-line-numbers="|12|12,15-16"
 >@patch.object(jenkins.Jenkins, 'jenkins_open')
 def test_unsafe_chars(self, jenkins_mock):
   response = build_jobs_list_responses(
@@ -90,11 +86,11 @@ def test_unsafe_chars(self, jenkins_mock):
   expected_fullnames = [
     u"my_job1", u"my_job2",
     u"my_folder1/my_job3", u"my_folder1/my_job4",
-<span class="fragment highlight-mark">    u"my_folder1/my spaced folder/my job 5"</span>
+    u"my_folder1/my spaced folder/my job 5"
   ]
   self.assertEqual(len(expected_fullnames), len(jobs_info))
-<span class="fragment highlight-mark">  got_fullnames = [job[u"fullname"] for job in jobs_info]
-  self.assertEqual(expected_fullnames, got_fullnames)</span>
+  got_fullnames = [job[u"fullname"] for job in jobs_info]
+  self.assertEqual(expected_fullnames, got_fullnames)
 </code></pre>
 </div>
 </section><section class="slide level2">
@@ -306,7 +302,7 @@ public class AbsTest {
 
 <div class="columns">
 <div class="column" style="width:35%;">
-<pre class="rst"><code>my test case::
+<pre class="shell"><code>my test case::
 
   $ A=1
   $ echo &quot;$A&quot;
@@ -331,14 +327,14 @@ patching file a.t
 </div>
 </section><section class="slide level2">
 
-<pre class="rst"><code>my finished test case::
+<pre class="shell"><code>my finished test case::
 
   $ A=1
   $ echo &quot;$A&quot;
   1
   $ [[ $A == 2 ]]
   [1]</code></pre>
-<pre class="text"><code>$ cram --shell=/bin/bash -i a.t
+<pre class="shell"><code>$ cram --shell=/bin/bash -i a.t
 .
 # Ran 1 tests, 0 skipped, 0 failed.</code></pre>
 </section><section id="fake" class="slide level2">
@@ -349,7 +345,7 @@ patching file a.t
 <p><a href="https://github.com/roman-neuhauser/fake" class="uri">https://github.com/roman-neuhauser/fake</a></p>
 </section><section class="slide level2">
 
-<pre class="rst"><code>  $ . $TESTROOT/setup
+<pre class="shell"><code>  $ . $TESTROOT/setup
 
   $ hostname -f
   laptop.example.com
@@ -360,7 +356,7 @@ patching file a.t
   google.com</code></pre>
 </section><section class="slide level2">
 
-<pre class="rst"><code>  $ . $TESTROOT/setup
+<pre class="shell"><code>  $ . $TESTROOT/setup
 
   $ fake -o &lt;&lt;&lt;&#39;localhost&#39; hostname
 
@@ -371,7 +367,7 @@ patching file a.t
   [100]</code></pre>
 </section><section class="slide level2">
 
-<pre class="rst"><code>  $ . $TESTROOT/setup
+<pre class="shell"><code>  $ . $TESTROOT/setup
 
   $ fake -c sleep
 
@@ -380,7 +376,7 @@ patching file a.t
   $ sleep 5</code></pre>
 </section><section class="slide level2">
 
-<pre class="rst"><code>  $ . $TESTROOT/setup
+<pre class="shell"><code>  $ . $TESTROOT/setup
 
   $ fake -b &lt;&lt;\EOF git clone \
   &gt;   git@github.com:gooddata/repo.git
@@ -419,8 +415,7 @@ patching file a.t
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/gh/hakimel/reveal.js@3.7.0/lib/js/head.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/hakimel/reveal.js@3.7.0/js/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/liskin/reveal.js@3.9.2-liskin1/js/reveal.js"></script>
 
   <script>
 
@@ -428,7 +423,10 @@ patching file a.t
       // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
         // Push each slide change to the browser history
-        history: true,
+        history: false,
+        hash: true,
+        // See https://github.com/hakimel/reveal.js/#navigation-mode
+        navigationMode: 'linear',
         // Transition style
         transition: 'fade', // none/fade/slide/convex/concave/zoom
         // Transition speed
@@ -445,10 +443,10 @@ patching file a.t
 
         // Optional reveal.js plugins
         dependencies: [
-          { src: 'https://cdn.jsdelivr.net/gh/hakimel/reveal.js@3.7.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-          { src: 'https://cdn.jsdelivr.net/gh/hakimel/reveal.js@3.7.0/plugin/zoom-js/zoom.js', async: true },
-          { src: 'https://cdn.jsdelivr.net/gh/hakimel/reveal.js@3.7.0/plugin/notes/notes.js', async: true },
-          { src: 'https://cdn.jsdelivr.net/gh/hakimel/reveal.js@3.7.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'https://cdn.jsdelivr.net/gh/liskin/reveal.js@3.9.2-liskin1/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'https://cdn.jsdelivr.net/gh/liskin/reveal.js@3.9.2-liskin1/plugin/zoom-js/zoom.js', async: true },
+          { src: 'https://cdn.jsdelivr.net/gh/liskin/reveal.js@3.9.2-liskin1/plugin/notes/notes.js', async: true },
+          { src: 'https://cdn.jsdelivr.net/gh/liskin/reveal.js@3.9.2-liskin1/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
         ]
       });
     </script>
