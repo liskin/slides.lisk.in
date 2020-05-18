@@ -1,6 +1,7 @@
 PANDOC ?= pandoc
 PANDOCFLAGS ?=
 
+.PHONY: all
 all: 2018-09-05_testovani_testu.html
 
 REVEALJS_WEB = revealjs-web.yaml
@@ -22,3 +23,11 @@ DEPS = $(REVEALJS_WEB) $(REVEALJS_THEME) $(REVEALJS_TEMPLATE)
 
 %.web.html: %.md $(DEPS)
 	$(PANDOC) $(PANDOCFLAGS) --from=markdown --output=$@ $<
+
+.PHONY: clean
+clean:
+	git clean -fdX
+
+.PHONY: livereload
+livereload:
+	python3 -c 'from livereload import Server, shell; server = Server(); server.watch(".", shell("make")); server.serve();'
