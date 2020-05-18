@@ -1,20 +1,7 @@
 ---
-revealjs-highlight: true
-
-transition: 'fade'
-transitionSpeed: 'fast'
-history: 'false'
-hash: 'true'
-navigationMode: 'linear'
-
-parallaxBackgroundImage: 'img/air-atmosphere-blue-675977.jpg'
-parallaxBackgroundSize: '5392px 1588px'
 theme: sky
 css:
     - css/custom-highlight.css
     - css/custom-sky.css
     - css/custom.css
-
-width: 800
-height: 450
 ---
