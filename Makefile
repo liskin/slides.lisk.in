@@ -4,31 +4,26 @@ PANDOCFLAGS ?=
 SOURCES = $(wildcard ????-??-??_*.md)
 
 .PHONY: all
-all: $(if $(wildcard _config.yml),web,local)
+all: $(SOURCES:.md=.html)
 
-.PHONY: local web
-local: $(SOURCES:.md=.html)
-web: $(SOURCES:.md=.web.html)
+THEME = sky
+BACKGROUND =
 
-REVEALJS_WEB = revealjs-web.yaml
-REVEALJS_THEME = revealjs-theme-sky.yaml
-REVEALJS_TEMPLATE = revealjs-template.html
-
-DEPS = $(REVEALJS_WEB) $(REVEALJS_THEME) $(REVEALJS_TEMPLATE)
+DEPS = Makefile $(wildcard revealjs-*.*)
 
 %.html: override PANDOCFLAGS += \
 	--to=revealjs \
-	--template=$(REVEALJS_TEMPLATE) \
+	--template=revealjs-template.html \
 	--standalone \
 	--no-highlight \
-	$(REVEALJS_THEME)
-%.web.html: override PANDOCFLAGS += $(REVEALJS_WEB)
+	revealjs-common.yaml \
+	$(if $(THEME),revealjs-theme-$(THEME).yaml) \
+	$(if $(BACKGROUND),revealjs-background-$(BACKGROUND).yaml)
 
 %.html: %.md $(DEPS)
 	$(PANDOC) $(PANDOCFLAGS) --from=markdown --output=$@ $<
 
-%.web.html: %.md $(DEPS)
-	$(PANDOC) $(PANDOCFLAGS) --from=markdown --output=$@ $<
+2018-09-05_testovani_testu.%: override BACKGROUND = clouds
 
 .PHONY: clean
 clean:

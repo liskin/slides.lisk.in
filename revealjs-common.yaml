@@ -1,0 +1,12 @@
+---
+revealjs-highlight: true
+
+transition: 'fade'
+transitionSpeed: 'fast'
+history: 'false'
+hash: 'true'
+navigationMode: 'linear'
+
+width: 800
+height: 450
+---
